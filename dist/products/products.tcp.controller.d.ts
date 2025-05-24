@@ -28,4 +28,11 @@ export declare class ProductsTcpController {
         id: string;
         quantity: number;
     }): Promise<Product>;
+    checkStock(data: {
+        id: string;
+        requestedQuantity: number;
+    }): Promise<{
+        hasStock: boolean;
+        currentStock: number;
+    }>;
 }

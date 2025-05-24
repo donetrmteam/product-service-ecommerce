@@ -50,4 +50,9 @@ export class ProductsTcpController {
   async updateStock(@Payload() data: { id: string; quantity: number }): Promise<Product> {
     return this.productsService.updateStock(data.id, data.quantity);
   }
+
+  @MessagePattern({ cmd: 'check_product_stock' })
+  async checkStock(@Payload() data: { id: string; requestedQuantity: number }): Promise<{ hasStock: boolean; currentStock: number }> {
+    return this.productsService.checkStock(data.id, data.requestedQuantity);
+  }
 }

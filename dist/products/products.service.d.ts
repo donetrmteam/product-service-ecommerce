@@ -18,4 +18,8 @@ export declare class ProductsService {
     update(id: string, updateProductDto: UpdateProductDto): Promise<Product>;
     remove(id: string): Promise<void>;
     updateStock(id: string, quantity: number): Promise<Product>;
+    checkStock(id: string, requestedQuantity: number): Promise<{
+        hasStock: boolean;
+        currentStock: number;
+    }>;
 }

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { Product } from './entities/product.entity';
@@ -44,12 +44,10 @@ export class ProductsService {
   }
 
   async findWithFilters(filters: { id?: string; nombre?: string; categoria?: string }): Promise<Product[] | Product> {
-    // Si solo se proporciona ID, usar findOne para obtener un único producto
     if (filters.id && !filters.nombre && !filters.categoria) {
       return this.findOne(filters.id);
     }
 
-    // Construir objeto de condiciones para la consulta
     const whereConditions: any = {};
     
     if (filters.nombre) {
@@ -85,5 +83,13 @@ export class ProductsService {
     
     product.stock += quantity;
     return await this.productsRepository.save(product);
+  }
+
+  async checkStock(id: string, requestedQuantity: number): Promise<{ hasStock: boolean; currentStock: number }> {
+    const product = await this.findOne(id);
+    return {
+      hasStock: product.stock >= requestedQuantity,
+      currentStock: product.stock
+    };
   }
 }

@@ -80,6 +80,13 @@ let ProductsService = class ProductsService {
         product.stock += quantity;
         return await this.productsRepository.save(product);
     }
+    async checkStock(id, requestedQuantity) {
+        const product = await this.findOne(id);
+        return {
+            hasStock: product.stock >= requestedQuantity,
+            currentStock: product.stock
+        };
+    }
 };
 exports.ProductsService = ProductsService;
 exports.ProductsService = ProductsService = __decorate([

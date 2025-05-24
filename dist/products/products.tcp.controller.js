@@ -50,6 +50,9 @@ let ProductsTcpController = class ProductsTcpController {
     async updateStock(data) {
         return this.productsService.updateStock(data.id, data.quantity);
     }
+    async checkStock(data) {
+        return this.productsService.checkStock(data.id, data.requestedQuantity);
+    }
 };
 exports.ProductsTcpController = ProductsTcpController;
 __decorate([
@@ -94,6 +97,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProductsTcpController.prototype, "updateStock", null);
+__decorate([
+    (0, microservices_1.MessagePattern)({ cmd: 'check_product_stock' }),
+    __param(0, (0, microservices_1.Payload)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ProductsTcpController.prototype, "checkStock", null);
 exports.ProductsTcpController = ProductsTcpController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [products_service_1.ProductsService])
